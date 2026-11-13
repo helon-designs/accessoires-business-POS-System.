@@ -1,0 +1,96 @@
+# Kawempe POS System
+
+# 1. The Class
+class Product:
+    def __init__(self, name, price, stock):
+        self.name = name
+        self.price = price
+        self.stock = stock
+
+    # The method is INSIDE the class
+    def sell(self, quantity):
+        self.stock = self.stock - quantity
+        total_price = self.price * quantity
+        print(f"\nSold {quantity} {self.name}(s) for {total_price} UGX. Remaining stock: {self.stock}")
+        return total_price
+
+# 2. The Inventory (List of Objects)
+inventory = [
+    Product("Screen Guard", 5000, 20),
+    Product("Phone Charger", 15000, 10),
+    Product("Flash Disk", 25000, 5),
+    Product("Earphones", 2000, 250),
+    Product("Mouse", 25000, 22),
+    Product("Keyboard", 50000, 15),
+    Product("DVD", 250000, 5),
+    Product("CD", 1000, 50)
+]
+
+# 3. Print the Menu
+print("WELCOME TO KAWEMPE PHONE ACCESSORIES\n")
+for item in inventory:
+    print(f"{item.name.upper()} : {item.stock} available at {item.price} UGX each.")
+
+# 4. The Cashier Loop
+while True:
+    product_name = input("\nEnter requested product (or type 'stop' to exit): ")
+    
+    if product_name.lower() == "stop":
+        print("Shift Ended.")
+        break
+
+    found_product = None
+    for item in inventory:
+        if item.name.lower() == product_name.lower():
+            found_product = item
+            break
+            
+    if found_product is None:
+        print("Error! Product not found.")
+        continue
+
+    # EVERYTHING from here down must be indented to stay inside the loop!
+    try:
+        quantity = int(input(f"Enter quantity of {found_product.name}: ")) 
+    except ValueError:
+        print("Error: Please enter a valid number!")
+        continue
+
+    if quantity > found_product.stock:
+        print(f"Out of stock! Only {found_product.stock} available.")   
+    else:
+        total = found_product.sell(quantity)  
+        
+        # 5. Save to File
+        with open("sales.txt", "a") as file:
+            file.write(f"Sold {quantity} {found_product.name} for {total} UGX.\n")
+            
+# 1. Writing to a file (Using "w" to create it for the first time)
+with open("accessories shop.txt", "w") as file:
+    file.write("Screen Guard - 5000 - 20\n"),
+    file.write("Flash Disk - 25000 - 5\n"),
+    file.write("Earphones -  2000 - 250\n"),
+    file.write("Mouse - 25000 - 22\n"),
+    file.write("Keyboard - 50000 - 15\n"),
+    file.write("DVD - 250000 - 5\n"),
+    file.write("CD - 1000 - 50\n"),
+    
+  #  Product("Phone Charger", 15000, 10),
+   # Product("Flash Disk", 25000, 5),
+    #Product("Earphones", 2000, 250),
+    #roduct("Mouse", 25000, 22),
+    #Product("Keyboard", 50000, 15),
+    #Product("DVD", 250000, 5),
+    #Product("CD", 1000, 50)")
+    #file.write("Hilda Balungi - S
+
+print("Data saved to file successfully!")
+
+# 2. Reading from the file (Using "r")
+print("\n--- READING FROM FILE ---")
+try:
+    with open("accessories shop.txt", "r") as file:
+        for line in file:
+            print(line.strip())
+except FileNotFoundError:
+    print("Error: The file does not exist yet. Please write to it first.")

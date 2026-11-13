@@ -1,4 +1,4 @@
-# accessoires-business-POS-System.py
+# accessories-business-POS-System.py
 # Kawempe Phone Accessories POS System
 
 A command-line Point-of-Sale (POS) inventory and sales tracker built with Python. This system helps a phone accessories shop manage stock, process sales, and generate receipts.
